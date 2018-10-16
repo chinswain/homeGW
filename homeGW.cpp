@@ -46,13 +46,8 @@ void HomeGW::registerPlugin(Plugin *p) {
 }
 
 bool HomeGW::setup(uint8_t pin) {
-  bool isESP = false;
 
-#if defined(ESP8266)
-  isESP = true;
-#endif
-
-  if (!isESP && (!(pin == 3 || pin == 2)))
+  if (!!(pin == 3 || pin == 2))
   {
     return false;
   }
@@ -63,31 +58,26 @@ bool HomeGW::setup(uint8_t pin) {
   digitalWrite(pin, LOW);
   uint8_t interuptPin;
 
-  if (!isESP)
-  {
-    interuptPin = pin - 2;
-  }
-  else
-  {
-    interuptPin = pin;
-  }
 
-  attachInterrupt(interuptPin, HomeGW::handleInterrupt, CHANGE); // 1 = PIN3
+
+  attachInterrupt(pin, HomeGW::handleInterrupt, CHANGE); // 1 = PIN3
 
   return true;
 }
 
-void HomeGW::handleInterrupt() {
+void IRAM_ATTR HomeGW::handleInterrupt() {
+
   static unsigned long lastTime;
 
   long time = micros();
   unsigned int duration = time - lastTime;
 
-  for(int i=0; i<MAX_PLUGINS; i++) {
-    if(plugin != NULL) {
-		plugin[i]->detectPacket(duration, plugin[i]);
-	}
+  for (int i = 0; i < MAX_PLUGINS; i++) {
+    if (plugin != NULL) {
+      plugin[i]->detectPacket(duration, plugin[i]);
+    }
   }
 
   lastTime = time;
+
 }
