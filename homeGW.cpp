@@ -56,9 +56,6 @@ bool HomeGW::setup(uint8_t pin) {
 
   pinMode(pin, INPUT);
   digitalWrite(pin, LOW);
-  uint8_t interuptPin;
-
-
 
   attachInterrupt(pin, HomeGW::handleInterrupt, CHANGE); // 1 = PIN3
 
