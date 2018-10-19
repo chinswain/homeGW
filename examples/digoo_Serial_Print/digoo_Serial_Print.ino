@@ -25,7 +25,7 @@ void setup() {
 
 void loop() {
 
- 
+  gw.tick();
   uint64_t p = 0;
 
   if (station1.available())
