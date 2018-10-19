@@ -18,6 +18,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 */
+
 #ifndef HomeGW_h
 #define HomeGW_h
 
@@ -45,7 +46,7 @@ class HomeGW {
 		~HomeGW();
 	
 		bool setup(uint8_t pin);
-
+		void tick();
 		void registerPlugin(Plugin *);
 };
 
